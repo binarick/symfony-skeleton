@@ -1,6 +1,7 @@
 up: dc-up
 init: dc-down dc-pull dc-build dc-up env-init
 first-run: env-init
+test: dc-test
 
 # DEVELOPMENT
 dc-up:
@@ -11,10 +12,17 @@ dc-pull:
 	docker-compose pull
 dc-build:
 	docker-compose build
+dc-test:
+	docker-compose run --rm php-cli php bin/phpunit
+
 
 # COMPOSER
 env-first-init:
 	docker-compose run --rm php-cli composer install
+	#docker-compose run --rm php-cli composer create-project symfony/skeleton project //for simple skeleton
+	docker-compose run --rm php-cli composer create-project symfony/website-skeleton skeleton
+	docker-compose run --rm php-cli php bin/phpunit
+
 	#add migration
 
 # Every day start init

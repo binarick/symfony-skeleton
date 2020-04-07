@@ -5,7 +5,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/bin --fil
 ENV COMPOSER_ALLOW_SUPERUSER 1
 WORKDIR /app
 COPY ./composer.json ./composer.lock ./
-RUN composer install --no-dev --prefer-dist --optimize-autoloader
+RUN composer install --no-dev --no-scripts --prefer-dist --optimize-autoloader
 
 FROM php:7.4-fpm
 LABEL maintainer="Binarick <e89139139835@gmail.com>"
@@ -21,3 +21,5 @@ WORKDIR /app
 COPY ./docker/production/defauilt.ini /usr/local/etc/php/conf.d/default.ini
 COPY --from=builder /app ./
 COPY ./ ./
+ENV APP_ENV prod
+RUN php bin/console assets:install

@@ -1,10 +1,8 @@
 version: '3'
-
 services:
-
   nginx:
     build:
-      context: ./project/docker/development
+      context: project/docker/development
       dockerfile: nginx.dockerfile
     volumes:
     - ./project:/app
@@ -15,18 +13,18 @@ services:
 
   php-fpm:
     build:
-      context: ./project/docker/development
+      context: project/docker/development
       dockerfile: fpm.dockerfile
-#    environment:
-#      APP_DEBUG: 1  //example env
     volumes:
       - ./project:/app
 
   php-cli:
     build:
-      context: ./project/docker/development
+      context: project/docker/development
       dockerfile: cli.dockerfile
-#    environment:
-#      APP_DEBUG: 1 //example env
     volumes:
       - ./project:/app
+      - composer:/root.composer/cache
+
+volumes:
+  composer:
